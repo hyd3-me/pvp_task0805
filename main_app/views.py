@@ -29,7 +29,7 @@ def login_view(request):
         if form1.is_valid():
             user1 = form1.get_user()
             login(request, user1)
-            messages.success(request, f'{test_data.SUCCESS_LOG}')
+            # messages.success(request, f'{test_data.SUCCESS_LOG}')
             return redirect('profile')
         messages.error(request, f'form invalid. perhaps there is no such user')
     else:
@@ -70,4 +70,12 @@ def profile(request):
     ref_code = utils.get_ref_code(request.user)
     ref_link = create_ref_link(ref_code)
     return render(request, 'profile.html', {'ref_link': ref_link})
+
+def my_refs_view(request):
+    status, refs = utils.get_referals_by_user(request.user)
+    return render(request, 'my_refs.html', {'my_refs': refs})
+
+def all_refs_view(request):
+    status, refs = utils.get_all_referals()
+    return render(request, 'all_refs.html', {'all_refs': refs})
 

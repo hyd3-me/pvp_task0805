@@ -9,4 +9,7 @@ urlpatterns = [
     path('logout',  views.logout_view, name=data_app.LOGOUT_PATH),
     path('register', views.register, name=data_app.REG_PATH),
     path('profile/', views.profile, name=data_app.PROFILE_PATH),
+
+    path('my_refs/', views.my_refs_view, name=data_app.REFERRAL_PATH),
+    path('all_refs/', views.all_refs_view, name=data_app.ALL_REFS_PATH),
     ]

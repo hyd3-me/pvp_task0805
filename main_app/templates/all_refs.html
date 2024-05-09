@@ -9,9 +9,13 @@
 {% endblock %}
 {% block content %}
 <div>
-    <p>my ref_link: {{ ref_link }}</p>
-    <p><a href='{% url "my_refs" %}'>my referals</a></p>
-    <p><a href='{% url "all_refs" %}'>all refs</a></p>
-    <p><a href='#'>buy page</a></p>
+    <h2>all refs:</h2>
+    <ul>
+        {% for ref in all_refs %}
+            <li>{{ ref.referrer.username }} ==> {{ ref.referral.username }}</li>
+        {% empty %}
+            <li>not refs</li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

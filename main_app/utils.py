@@ -22,3 +22,9 @@ def get_ref_code(user_obj):
 
 def get_user_by_id(user_id):
     return User.objects.get(id=user_id)
+
+def get_referals_by_user(user_obj):
+    return True, user_obj.refr.all()
+
+def get_all_referals():
+    return True, Referral.objects.all()

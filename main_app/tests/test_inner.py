@@ -27,3 +27,25 @@ class UserTest(TestCase):
         s, user1 = utils.create_user(data_app.USER1)
         user_from_bd = utils.get_user_by_id(user1.id)
         self.assertEqual(user1, user_from_bd)
+    
+    def test_get_referals_from_user(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        ref_code = user1.profile.ref_code
+        s, user2 = utils.create_user((*data_app.USER2, ref_code))
+        s, user3 = utils.create_user((*data_app.USER3, ref_code))
+        status, refs = utils.get_referals_by_user(user1)
+        self.assertTrue(status)
+        self.assertEqual(len(refs), 2)
+    
+    def test_get_all_referals(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        ref_code = user1.profile.ref_code
+        s, user2 = utils.create_user((*data_app.USER2, ref_code))
+        s, user3 = utils.create_user((*data_app.USER3, ref_code))
+        s, user4 = utils.create_user(data_app.USER4)
+        ref_code = user4.profile.ref_code
+        s, user5 = utils.create_user((*data_app.USER5, ref_code))
+        s, user6 = utils.create_user((*data_app.USER6, ref_code))
+        status, refs = utils.get_all_referals()
+        self.assertTrue(status)
+        self.assertEqual(len(refs), 4)
