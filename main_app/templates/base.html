@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>{% block t1 %}refApp{% endblock %}</title>
+	<!-- <link rel='shortcut icon' type='image/png' href='/static/noteqq.png'/> -->
+	<!-- <link rel='stylesheet' type='text/css' href='/static/css/noteqq.css'> -->
+        {% block ext_head %}{% endblock %}
+</head>
+<body>
+        <div class='conteiner'>
+                <div class='top_line'>
+                        {% url 'taskqq' as taskqq %}
+                <div class='align_right'>
+                        {% block userbar %}
+                        {% if user.is_authenticated %}
+                        <button class='userbar_btn btn btn_head'><a href='{% url "profile" %}'>{{ user.username }}</a></button>
+                        {% else %}
+                        <button class='userbar_btn btn btn_head' id='id_login'><a href='{% url "login" %}'>in</a></button>
+                        {% endif %}
+                        {% endblock %}
+                </div>
+                </div>
+                <h1>{% block h1 %}refApp{% endblock %}</h1>
+                {% block navigation %}
+                {% endblock %}
+                <div class='content_box'>
+			 <div>
+                                {% block content %}{% endblock %}
+			 </div>
+                </div>
+        </div>
+</body>
+</html>

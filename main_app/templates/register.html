@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block t1 %}registration page{% endblock %}
+
+{% block h1 %}registration user{% endblock %}
+
+{% block content %}
+{% if form %}
+<form method='POST' action='/register'>
+	{% csrf_token %}
+        {{ form.as_p }}
+        {{ referral_form.as_p }}
+        <button type="submit">registration</button>
+</form>
+{% endif %}
+{% endblock %}
+

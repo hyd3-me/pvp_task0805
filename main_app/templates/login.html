@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block userbar %}
+{% endblock %}
+
+{% block content %}
+{% if form %}
+<form method='POST' action='/login'>
+        <p><label for='id_username'>{{ form.username.label }}<br>
+                {{ form.username }}</label></p>
+        <p><label for='id_password'>{{ form.password.label }}<br>
+                {{ form.password }}</label></p>
+        <p><input type='submit' value='login' /></p>
+        {% csrf_token %}
+</form>
+{% endif %}
+<p><a href='/register'>+new user</a></p>
+{% endblock %}
+
