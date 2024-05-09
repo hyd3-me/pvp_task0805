@@ -10,9 +10,14 @@ PROFILE_PATH            = 'profile'
 
 REFERRAL_PATH           = 'my_refs'
 ALL_REFS_PATH           = 'all_refs'
+BUY_PATH                = 'buy_page'
+GIVE_MONEY_PATH         = 'give_money'
+POST_BUY_PATH           = 'post_buy'
 
 
 # test data 4 user
+
+GIVE_MONEY = 9999
 
 USERNAME1 = 'testuser1'
 PASSWORD1 = 'v3ry5strongPWD1'

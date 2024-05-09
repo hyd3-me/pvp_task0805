@@ -1,1 +1,6 @@
 __pycache__/
+geckodriver.log
+*.pyc
+*/migrations/
+*.swp
+*.sqlite3

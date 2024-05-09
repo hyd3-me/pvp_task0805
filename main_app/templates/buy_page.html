@@ -9,15 +9,13 @@
 {% endblock %}
 {% block content %}
 <div>
-    <h2>my referrals:</h2>
-    <ul>
-        {% for ref in my_refs %}
-            <li>Реферрал от {{ ref.referrer.username }} к {{ ref.referral.username }}</li>
-            <p>всего покупок: {{ ref.num_purchases }}</p>
-            <p>общая сумма: {{ ref.total_amount }}</p>
-        {% empty %}
-            <li>Нет рефералов</li>
-        {% endfor %}
-    </ul>
+    <h2>buy page</h2>
+    <p>my balance: {{ balance }}</p>
+    <p><a href='{% url "give_money" %}'>give money</a></p>
+    <form method="post" action="{% url 'post_buy' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">buy</button>
+    </form>
 </div>
 {% endblock %}

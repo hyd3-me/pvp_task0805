@@ -4,15 +4,16 @@ from django.utils import html
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.urls import reverse
+from django.views.decorators.cache import never_cache
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, BuyThingForm
 from .models import Profile, Referral
 from main_app import data_app, utils
 
 
 def create_ref_link(ref_code):
     domain = 'localhost'
-    return f'https://{domain}{reverse(data_app.REG_PATH)}?={ref_code}'
+    return f'http://{domain}:8000{reverse(data_app.REG_PATH)}?ref={ref_code}'
 
 # Create your views here.
 
@@ -54,7 +55,9 @@ def register(request):
             login(request, user)
             return redirect('profile')
     else:
+        ref = request.GET.get('ref', '')
         form = RegistrationForm()
+        form.fields['ref_code'].initial = ref
     return render(request, 'register.html', {'form': form})
 
 def reg_ref(request, code):
@@ -77,5 +80,25 @@ def my_refs_view(request):
 
 def all_refs_view(request):
     status, refs = utils.get_all_referals()
-    return render(request, 'all_refs.html', {'all_refs': refs})
+    return render(request, 'all_refs.html', {'all_refs': refs}) 
 
+#@never_cache
+def buy_page_view(request):
+    s, balance1 = utils.get_balance_by_user(request.user)
+    form = BuyThingForm()
+    return render(request, 'buy_page.html', {'balance': balance1, 'form': form})
+
+def give_money_view(request):
+    s, resp1 = utils.get_money(request.user)
+    return redirect('buy_page')
+
+def post_buy_view(request):
+    if request.method != "POST":
+        return redirect('index')
+    form = BuyThingForm(request.POST)
+    if form.is_valid():
+        amount = form.cleaned_data['amount']
+        s, resp1 = utils.buy_thing(request.user, amount)
+        return redirect('index')
+    s, balance1 = utils.get_balance_by_user(request.user)
+    return render(request, 'buy_page.html', {'balance': balance1, 'form': form})

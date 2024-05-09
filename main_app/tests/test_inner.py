@@ -49,3 +49,39 @@ class UserTest(TestCase):
         status, refs = utils.get_all_referals()
         self.assertTrue(status)
         self.assertEqual(len(refs), 4)
+    
+    def test_get_money(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        self.assertEqual(user1.profile.balance, 0)
+        s, resp1 = utils.get_money(user1)
+        self.assertEqual(user1.profile.balance, 9999)
+    
+    def test_can_buy_thin(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        s, resp1 = utils.get_money(user1)
+        req = 100
+        s, resp1 = utils.buy_thing(user1, req)
+        s, balance1 = utils.get_balance_by_user(user1)
+        self.assertEqual(9999 - 100, balance1)
+    
+    def test_can_get_referral(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        ref_code = user1.profile.ref_code
+        s, user2 = utils.create_user((*data_app.USER2, ref_code))
+        s, ref = utils.is_refl(user2)
+        s, user3 = utils.create_user((*data_app.USER3, ''))
+        s, ref = utils.is_refl(user3)
+        if s: print(ref.referrer)
+    
+    def test_can_control_buy_from_refl(self):
+        s, user1 = utils.create_user(data_app.USER1)
+        ref_code = user1.profile.ref_code
+        s, user2 = utils.create_user((*data_app.USER2, ref_code))
+        s, resp1 = utils.get_money(user2)
+        req = 100
+        s, resp1 = utils.buy_thing(user2, req)
+        req = 200
+        s, resp1 = utils.buy_thing(user2, req)
+        s, ref = utils.is_refl(user2)
+        self.assertEqual(ref.total_amount, 100 + 200)
+        self.assertEqual(ref.num_purchases, 2)

@@ -10,3 +10,12 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
+class BuyThingForm(forms.Form):
+    
+    amount = forms.DecimalField(max_digits=10, decimal_places=2)
+
+    def clean_amount(self):
+        amount = self.cleaned_data['amount']
+        if amount <= 0:
+            raise forms.ValidationError('Сумма должна быть положительной')
+        return amount

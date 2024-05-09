@@ -12,6 +12,6 @@
     <p>my ref_link: {{ ref_link }}</p>
     <p><a href='{% url "my_refs" %}'>my referals</a></p>
     <p><a href='{% url "all_refs" %}'>all refs</a></p>
-    <p><a href='#'>buy page</a></p>
+    <p><a href='{% url "buy_page" %}'>buy page</a></p>
 </div>
 {% endblock %}
